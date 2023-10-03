@@ -37,7 +37,7 @@ class BoatsTest extends TestCase
 
         $response = $this->actingAs($this->user)->post('/boats', $params);
 
-        $response->assertStatus(200);
+        $response->assertRedirect();
         $this->assertDatabaseHas('boats', $params);
     }
 
