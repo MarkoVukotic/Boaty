@@ -17,7 +17,7 @@ class BoatsController extends Controller
     {
 
         try {
-            $boats = Boats::orderBy('id', 'desc')->get()->toArray();
+            $boats = Boats::where('availability', true)->orderBy('id', 'desc')->get()->toArray();
 
             return view('boats.index', compact('boats'));
 
