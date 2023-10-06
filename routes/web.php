@@ -30,5 +30,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('boats', BoatsController::class);
+Route::post('boats/book', [BoatsController::class, 'book']);
 
 require __DIR__.'/auth.php';

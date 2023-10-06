@@ -21,13 +21,12 @@
                     <div x-data="{ showModal: false, modalData: {} }"
                         class="flex flex-col items-center max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                         <h5 class="text-center mb-6 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$boat['model']}}</h5>
-                        <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Production year:</span> {{$boat['production_year']}}</p>
+                        <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Tour: </span>{{$boat['tour']}}</p>
                         <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Capacity: </span>{{$boat['capacity']}}</p>
-                        <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Blue Cave private price: </span>{{$boat['blue_cave_private']}}</p>
-                        <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Perast private price: </span>{{$boat['perast_private']}}</p>
-                        <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Blue Cave group price: </span>{{$boat['blue_cave_group']}}</p>
-                        <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Price by hour: </span>{{$boat['price_by_hour']}}</p>
-
+                        <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Booked capacity: </span>{{$boat['booked_capacity']}}</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+                            <div class="bg-green-600 h-2.5 rounded-full dark:bg-green-500" style="width:{{$boat['booked_capacity'] / $boat['capacity'] * 100}}%"></div>
+                        </div>
                         <div class="mt-4 flex justify-around items-center space-x-4">
                             @include('boats.modals.book')
                             @include('boats.modals.more_info')

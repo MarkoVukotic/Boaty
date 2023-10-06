@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('model',100);
             $table->unsignedSmallInteger('production_year');
             $table->unsignedTinyInteger('capacity');
+            $table->unsignedTinyInteger('booked_capacity')->default(0);
+            $table->enum('tour', ['Blue cave', 'Perast'])->default(null);
             $table->unsignedSmallInteger('blue_cave_private');
             $table->unsignedSmallInteger('perast_private');
             $table->unsignedTinyInteger('blue_cave_group');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Boats;
 use App\Http\Requests\StoreBoatsRequest;
 use App\Http\Requests\UpdateBoatsRequest;
+use \Illuminate\Http\Request;
 
 class BoatsController extends Controller
 {
@@ -107,5 +108,12 @@ class BoatsController extends Controller
     public function destroy(Boats $boats)
     {
         //
+    }
+
+    public function book(Request $request){
+
+        //Use and store the data for booking in the right places
+        dd($request->all());
+
     }
 }
