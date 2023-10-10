@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\BoatsController;
+use \App\Http\Controllers\{
+    BoatsController,
+    BookingController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +33,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('boats', BoatsController::class);
-Route::post('boats/book', [BoatsController::class, 'book']);
+Route::resource('booking', BookingController::class);
+
 
 require __DIR__.'/auth.php';

@@ -10,9 +10,12 @@
                     <span>&times;</span>
                 </button>
             </div>
-            <div class="modal-body p-4">
-                <form method="POST" action="{{ route('boats.book') }}">>
+            <div class="modal-body p-4 overflow-y-auto" style="max-height: 38em;">
+                <form method="POST" action="{{ route('booking.store') }}">
                     @csrf
+
+                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                    <input type="hidden" name="tour" value="{{ $boat['tour'] }}">
 
                     <!-- First Name -->
                     <div>
@@ -28,6 +31,24 @@
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
+                    <!-- Departure time -->
+                    <div class="mt-4">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                               for="grid-capacity">
+                            Departure time
+                        </label>
+                        <div class="relative">
+                            <select
+                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                id="grid-capacity" name="departure_time">
+                                <option>09:00h</option>
+                                <option>12:00h</option>
+                                <option>15:00h</option>
+                                <option>18:00h</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"></div>
+                        </div>
+                    </div>
                     <!-- Adults -->
                     <div class="mt-4">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -37,7 +58,8 @@
                         <div class="relative">
                             <select
                                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id="grid-capacity" name="adults">
+                                id="grid-capacity" name="number_of_adults">
+                                <option>0</option>
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -59,16 +81,17 @@
                         </div>
                     </div>
 
-                    <!-- Children -->
+                    <!-- Kids -->
                     <div class="mt-4">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                for="grid-capacity">
-                            Children
+                            Kids
                         </label>
                         <div class="relative">
                             <select
                                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id="grid-capacity" name="children">
+                                id="grid-capacity" name="number_of_kids">
+                                <option>0</option>
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
@@ -90,17 +113,17 @@
                         </div>
                     </div>
 
-                    <!-- Babies -->
+                    <!-- Infants -->
                     <div class="mt-4">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                for="grid-capacity">
-                            Babies
+                            Infants
                         </label>
                         <div class="relative">
                             <select
                                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id="grid-capacity" name="babies">
-                                <option>1</option>
+                                id="grid-capacity" name="number_of_infants">
+                                <option>0</option>
                                 <option>2</option>
                                 <option>3</option>
                                 <option>4</option>
@@ -127,6 +150,13 @@
                         <x-text-input id="total_price" class="block mt-1 w-full" type="number" name="total_price" :value="old('total_price')" required autofocus autocomplete="total_price" />
                         <x-input-error :messages="$errors->get('total_price')" class="mt-2" />
                     </div>
+
+                    <!-- Note for the owner -->
+                    <div class="mt-4">
+                        <label for="additional_message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Additional message</label>
+                        <textarea id="additional_message" name="additional_message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your message for the owner here"></textarea>
+                    </div>
+
 
                     <button type="submit" class="mt-6 w-full text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Book</button>
                 </form>
