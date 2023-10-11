@@ -15,7 +15,20 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        try {
+
+            //Moram ovdje da napravim da vraca i samo po danasnjem datumu i nadalje,
+            //ali da mu je prioritet danasnji datum
+            $bookings = Booking::select('*')
+                ->orderBy('departure_time', 'asc')
+                ->get()->toArray();
+
+            return view('bookings.index', compact('bookings'));
+
+        }catch (\Exception $e){
+            echo $e->getMessage();
+            echo $e->getLine();
+        }
     }
 
     /**
@@ -36,21 +49,26 @@ class BookingController extends Controller
      */
     public function store(StoreBookingRequest $request)
     {
-        $data = $request->all();
+        try {
+            $data = $request->all();
 
-        Booking::create([
-            'tour' => $data['tour'],
-            'number_of_adults' => $data['number_of_adults'],
-            'number_of_kids' => $data['number_of_kids'],
-            'number_of_infants' => $data['number_of_infants'],
-            'total_price' => $data['total_price'],
-            'departure_time' => $data['departure_time'],
-            'user_id' => $data['user_id'],
-            'additional_message' => $data['additional_message'],
-        ]);
+            Booking::create([
+                'tour' => $data['tour'],
+                'number_of_adults' => $data['number_of_adults'],
+                'number_of_kids' => $data['number_of_kids'],
+                'number_of_infants' => $data['number_of_infants'],
+                'total_price' => $data['total_price'],
+                'departure_time' => $data['departure_time'],
+                'user_id' => $data['user_id'],
+                'additional_message' => $data['additional_message'],
+            ]);
 
-        //Moram sada da napravim pregled 'Bookings' -> novi module
-//        return redirect('boats');
+            return redirect('booking');
+        }catch (\Exception $exception){
+            echo $e->getMessage();
+            echo $e->getLine();
+        }
+
     }
 
     /**
