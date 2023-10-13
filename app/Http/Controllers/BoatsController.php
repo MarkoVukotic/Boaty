@@ -106,10 +106,6 @@ class BoatsController extends Controller
      */
     public function destroy(Boats $boats)
     {
-
-
-
-
         //
     }
 }

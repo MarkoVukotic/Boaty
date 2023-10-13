@@ -33,6 +33,9 @@
                                 Additional message
                             </th>
                             <th scope="col" class="px-6 py-3 text-center">
+                                Bookie
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Edit
                             </th>
                             <th scope="col" class="px-6 py-3 text-center">
@@ -66,6 +69,9 @@
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     {{$single_booking['additional_message']}}
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    {{$single_booking['user']['full_name']}}
                                 </td>
 
                                 <td class="px-6 py-4 text-center">

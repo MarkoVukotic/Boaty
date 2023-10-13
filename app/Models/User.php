@@ -48,4 +48,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Boats::class);
     }
+
+    public function booking()
+    {
+        return $this->hasMany(Booking::class);
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::retrieved(function ($model) {
+            $model['full_name'] = $model['first_name'] . ' ' . $model['last_name'];
+        });
+    }
+
+
 }

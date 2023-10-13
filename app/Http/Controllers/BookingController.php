@@ -20,7 +20,9 @@ class BookingController extends Controller
             //Moram ovdje da napravim da vraca i samo po danasnjem datumu i nadalje,
             //ali da mu je prioritet danasnji datum
             $bookings = Booking::select('*')
+                ->orderBy('created_at', 'asc')
                 ->orderBy('departure_time', 'asc')
+                ->with('user')
                 ->get()->toArray();
 
             return view('bookings.index', compact('bookings'));
@@ -64,7 +66,7 @@ class BookingController extends Controller
             ]);
 
             return redirect('booking');
-        }catch (\Exception $exception){
+        }catch (\Exception $e){
             echo $e->getMessage();
             echo $e->getLine();
         }
