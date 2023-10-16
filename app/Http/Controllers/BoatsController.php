@@ -17,10 +17,13 @@ class BoatsController extends Controller
     {
 
         try {
-            $boats = Boats::where('availability', true)
+            $boats = Boats::select('*')
+                ->where('availability', true)
+                ->whereColumn('booked_capacity', '<', 'capacity')
                 ->with('user')
                 ->orderBy('id', 'desc')
-                ->get()->toArray();
+                ->get()
+                ->toArray();
 
             return view('boats.index', compact('boats'));
 

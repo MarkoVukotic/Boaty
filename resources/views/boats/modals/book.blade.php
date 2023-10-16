@@ -1,3 +1,19 @@
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #b2b1b1;
+        border-radius: 5px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+    }
+</style>
+
+
 <div x-data="{ showModal: false}">
     <button @click="showModal = true; modalData = {{ json_encode($boat) }}" type="button" class="w-full text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Book</button>
 
@@ -10,12 +26,13 @@
                     <span>&times;</span>
                 </button>
             </div>
-            <div class="modal-body p-4 overflow-y-auto" style="max-height: 38em;">
+            <div class="modal-body p-4 overflow-y-auto custom-scrollbar" style="max-height: 38em;">
                 <form method="POST" action="{{ route('booking.store') }}">
                     @csrf
 
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="tour" value="{{ $boat['tour'] }}">
+                    <input type="hidden" name="boat_id" value="{{ $boat['id'] }}">
 
                     <!-- First Name -->
                     <div>

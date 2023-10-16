@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('number_of_infants');
             $table->unsignedSmallInteger('total_price');
             $table->tinyText('departure_time');
-            $table->string('additional_message', 600);
+            $table->string('additional_message', 600)->nullable();
             $table->unsignedBigInteger('user_id');
             $table->enum('tour', ['Blue cave', 'Perast'])->default(null);
             $table->foreign('user_id')->references('id')->on('users');
