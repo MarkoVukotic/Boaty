@@ -7,9 +7,13 @@ use App\Models\Booking;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BookingController extends Controller
 {
+
+    private int $booked_capacity;
+
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +33,7 @@ class BookingController extends Controller
 
             return view('bookings.index', compact('bookings'));
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             echo $e->getMessage();
             echo $e->getLine();
         }
@@ -48,32 +52,36 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreBookingRequest  $request
+     * @param \App\Http\Requests\StoreBookingRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreBookingRequest $request)
     {
         try {
             DB::beginTransaction();
-
             $data = $request->all();
+            $warning = $this->checkBoatCapacity($data);
 
-            Booking::create([
-                'tour' => $data['tour'],
-                'number_of_adults' => $data['number_of_adults'],
-                'number_of_kids' => $data['number_of_kids'],
-                'number_of_infants' => $data['number_of_infants'],
-                'total_price' => $data['total_price'],
-                'departure_time' => $data['departure_time'],
-                'user_id' => $data['user_id'],
-                'additional_message' => $data['additional_message'],
-            ]);
+            if ($warning) {
+                Alert::warning('Unsuccessful', 'Your booking is not valid, due to safety guidelines');
+            } else {
+                Booking::create([
+                    'tour' => $data['tour'],
+                    'number_of_adults' => $data['number_of_adults'],
+                    'number_of_kids' => $data['number_of_kids'],
+                    'number_of_infants' => $data['number_of_infants'],
+                    'total_price' => $data['total_price'],
+                    'departure_time' => $data['departure_time'],
+                    'user_id' => $data['user_id'],
+                    'additional_message' => $data['additional_message'],
+                ]);
 
-            $this->updateBoatCapacity($data);
-            DB::commit();
+                $this->updateBoatCapacity($data);
 
+                DB::commit();
+            }
             return redirect('booking');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             DB::rollBack();
             echo $e->getMessage();
             echo $e->getLine();
@@ -84,7 +92,7 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Booking  $booking
+     * @param \App\Models\Booking $booking
      * @return \Illuminate\Http\Response
      */
     public function show(Booking $booking)
@@ -95,7 +103,7 @@ class BookingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Booking  $booking
+     * @param \App\Models\Booking $booking
      * @return \Illuminate\Http\Response
      */
     public function edit(Booking $booking)
@@ -106,8 +114,8 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateBookingRequest  $request
-     * @param  \App\Models\Booking  $booking
+     * @param \App\Http\Requests\UpdateBookingRequest $request
+     * @param \App\Models\Booking $booking
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateBookingRequest $request, Booking $booking)
@@ -118,7 +126,7 @@ class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Booking  $booking
+     * @param \App\Models\Booking $booking
      * @return \Illuminate\Http\Response
      */
     public function destroy(Booking $booking)
@@ -129,7 +137,7 @@ class BookingController extends Controller
     private function updateBoatCapacity($data)
     {
         $boat = $this->getBoat($data);
-        $this->checkAndUpdateBoatCapacity($boat, $data);
+        $this->updateCapacity($boat);
     }
 
     private function getBoat($data)
@@ -137,33 +145,28 @@ class BookingController extends Controller
         return Boats::select('*')->where('id', $data['boat_id'])->first();
     }
 
-    private function checkAndUpdateBoatCapacity($boat, $data)
+    private function updateCapacity($boat)
     {
-        $booked_capacity = $data['number_of_infants'] + $data['number_of_kids'] + $data['number_of_adults'];
-
-        $available_capacity = $boat['capacity'] - $boat['booked_capacity'];
-
-        if($available_capacity <= $booked_capacity){
-            $this->updateCapacity($boat, $booked_capacity);
-        }else {
-
-
-            //I have to make a logic to give a response on the FE, that you cannot book a tour over guest limit
-            //because it is illegal and dangerous. Not according to the law and safty guidlines.
-            //Probably going to use a sweetAlert
-
-
-
-        }
-
-    }
-
-    private function updateCapacity($boat, $booked_capacity)
-    {
-        $total_capacity = $boat['booked_capacity'] + $booked_capacity;
+        $total_capacity = $boat['booked_capacity'] + $this->booked_capacity;
 
         $boat->update([
             'booked_capacity' => $total_capacity
         ]);
+
+        Alert::success('Success', 'Your booking has been successfully registered');
+    }
+
+    private function checkBoatCapacity($data)
+    {
+        $boat = $this->getBoat($data);
+        $this->booked_capacity = $data['number_of_infants'] + $data['number_of_kids'] + $data['number_of_adults'];
+
+        $available_capacity = $boat['capacity'] - $boat['booked_capacity'];
+
+        if ($this->booked_capacity >= $available_capacity) {
+            return true;
+        }
+        return false;
+
     }
 }

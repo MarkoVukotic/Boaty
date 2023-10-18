@@ -1,4 +1,5 @@
 <x-app-layout>
+    @include('sweetalert::alert')
 
     {{--    <x-slot name="header">--}}
 
