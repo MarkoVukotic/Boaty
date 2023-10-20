@@ -24,7 +24,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('perast_private');
             $table->unsignedTinyInteger('blue_cave_group');
             $table->unsignedTinyInteger('price_by_hour');
-            $table->boolean('availability')->default(false);
+            $table->boolean('availability')->default(true);
+            $table->string('departure_time', 10)->default(false);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

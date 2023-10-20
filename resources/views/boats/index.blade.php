@@ -24,6 +24,7 @@
                         <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Tour: </span>{{$boat['tour']}}</p>
                         <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Capacity: </span>{{$boat['capacity']}}</p>
                         <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Booked capacity: </span>{{$boat['booked_capacity']}}</p>
+                        <p class="text-center mb-3 font-normal text-gray-700 dark:text-gray-400"><span class="text-xs">Departure time : </span>{{$boat['departure_time']}}</p>
                         <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
                             <div class="bg-green-600 h-2.5 rounded-full dark:bg-green-500" style="width:{{$boat['booked_capacity'] / $boat['capacity'] * 100}}%"></div>
                         </div>

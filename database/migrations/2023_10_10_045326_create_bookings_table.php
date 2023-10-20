@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('additional_message', 600)->nullable();
             $table->unsignedBigInteger('user_id');
             $table->enum('tour', ['Blue cave', 'Perast'])->default(null);
+            $table->enum('status', ['active', 'inactive', 'deleted'])->default('active');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

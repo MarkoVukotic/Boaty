@@ -31,6 +31,7 @@ class StoreBoatsRequest extends FormRequest
             'perast_private' => 'required',
             'blue_cave_group' => 'required',
             'price_by_hour' => 'required',
+            'departure_time' => 'required',
         ];
     }
 }

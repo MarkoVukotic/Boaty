@@ -142,7 +142,10 @@ class BookingController extends Controller
 
     private function getBoat($data)
     {
-        return Boats::select('*')->where('id', $data['boat_id'])->first();
+        return Boats::select('*')
+            ->where('id', $data['boat_id'])
+            ->where('departure_time', $data['departure_time'])
+            ->first();
     }
 
     private function updateCapacity($boat)
