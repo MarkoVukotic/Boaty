@@ -55,6 +55,6 @@ class BoatsTest extends TestCase
         $response = $this->actingAs($this->user)->get('/boats');
         $response->assertStatus(200);
         $content = $response->getContent();
-        $this->assertStringContainsString('Barracuda 686', $content); // Example content check
+        $this->assertStringContainsString('Barracuda 686', $content);
     }
 }
