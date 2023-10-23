@@ -26,13 +26,14 @@ class BoatsTest extends TestCase
     public function it_creates_boat_successfully()
     {
         $params = [
-          'model' => 'Atlantic Marine',
-          'production_year' => 2023,
-          'capacity' => 10,
-          'blue_cave_private' => 300,
-          'perast_private' => 100,
-          'blue_cave_group' => 30,
-          'price_by_hour' => 100,
+            'model' => 'Atlantic Marine',
+            'production_year' => 2023,
+            'capacity' => 10,
+            'blue_cave_private' => 300,
+            'perast_private' => 100,
+            'blue_cave_group' => 30,
+            'price_by_hour' => 100,
+            'departure_time' => '09:00h'
         ];
 
         $response = $this->actingAs($this->user)->post('/boats', $params);
@@ -44,7 +45,8 @@ class BoatsTest extends TestCase
     /**
      * @test
      */
-    public function it_shows_all_of_the_boats_successfully(){
+    public function it_shows_all_of_the_boats_successfully()
+    {
 
         Boats::factory(10)->create([
             'model' => 'Barracuda 686'

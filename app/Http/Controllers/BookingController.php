@@ -23,8 +23,7 @@ class BookingController extends Controller
     {
         try {
 
-            //Moram ovdje da napravim da vraca i samo po danasnjem datumu i nadalje,
-            //ali da mu je prioritet danasnji datum
+            //TODO Moram ovdje da napravim da vraca i samo po danasnjem datumu i nadalje, ali da mu je prioritet danasnji datum
             $bookings = Booking::select('*')
                 ->orderBy('created_at', 'asc')
                 ->orderBy('departure_time', 'asc')
