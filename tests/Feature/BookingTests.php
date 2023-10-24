@@ -25,16 +25,13 @@ class BookingTests extends TestCase
     /**
      * @test
      */
-    public function it_shows_all_the_bookings_successfully(){
-
-        Boats::factory(1)->create([
-            'user_id' => $this->user->id
-        ]);
+    public function it_shows_all_the_bookings_successfully()
+    {
 
         Booking::factory()->create([
             'number_of_adults' => 2,
             'total_price' => 80,
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
 
         $response = $this->actingAs($this->user)->get('/booking');
@@ -49,7 +46,25 @@ class BookingTests extends TestCase
      */
     public function it_successfully_creates_a_booking_for_a_specific_boat()
     {
-        //
+        $boat = Boats::factory()->create();
+
+        $params = [
+            'tour' => 'Blue Cave',
+            'departure_time' => '09:00h',
+            'number_of_adults' => 2,
+            'number_of_kids' => 0,
+            'number_of_infants' => 0,
+            'total_price' => 80,
+            'additional_message' => 'No additional message',
+            'boats_id' => $boat->id,
+            'user_id' => $this->user->id
+        ];
+
+        $response = $this->actingAs($this->user)->post('/booking', $params);
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('bookings', $params);
+        $this->assertSame($boat->id, $params['boats_id']);
     }
 
     /**
@@ -57,15 +72,27 @@ class BookingTests extends TestCase
      */
     public function it_successfully_prevents_overbooking_for_a_specific_departure_time_and_boat()
     {
-        //
-    }
+        $boat = Boats::factory()->create([
+            'capacity' => 8,
+            'departure_time' => '12:00h'
+        ]);
 
-    /**
-     * @test
-     */
-    public function it_successfully_books_for_a_specific_departure_time()
-    {
-        //
+        $params = [
+            'tour' => 'Blue Cave',
+            'departure_time' => '12:00h',
+            'number_of_adults' => 9,
+            'number_of_kids' => 0,
+            'number_of_infants' => 0,
+            'total_price' => 315,
+            'additional_message' => 'No additional message',
+            'boats_id' => $boat->id,
+            'user_id' => $this->user->id
+        ];
+
+        $response = $this->actingAs($this->user)->post('/booking', $params);
+
+        $response->assertRedirect();
+        $this->assertDatabaseMissing('bookings', $params);
     }
 
     /**
@@ -73,7 +100,30 @@ class BookingTests extends TestCase
      */
     public function it_successfully_updates_the_boat_capcity_for_a_specific_departure_time()
     {
-        //
+        $boat = Boats::factory()->create([
+            'capacity' => 10,
+            'departure_time' => '12:00h'
+        ]);
+
+        $params = [
+            'tour' => 'Blue Cave',
+            'departure_time' => '12:00h',
+            'number_of_adults' => 2,
+            'number_of_kids' => 0,
+            'number_of_infants' => 0,
+            'total_price' => 80,
+            'additional_message' => 'No additional message',
+            'boats_id' => $boat->id,
+            'user_id' => $this->user->id
+        ];
+
+        $response = $this->actingAs($this->user)->post('/booking', $params);
+
+        $response->assertRedirect();
+
+        $this->assertDatabaseHas('boats', [
+            'booked_capacity' => 2
+        ]);
     }
 
 }

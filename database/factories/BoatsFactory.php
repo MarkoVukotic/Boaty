@@ -21,6 +21,7 @@ class BoatsFactory extends Factory
         return [
             'model' => 'Atlantic Marine',
             'production_year' => 2023,
+            'departure_time' => '09:00h',
             'capacity' => 10,
             'blue_cave_private' => 300,
             'perast_private' => 100,

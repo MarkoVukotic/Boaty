@@ -72,6 +72,7 @@ class BookingController extends Controller
                     'total_price' => $data['total_price'],
                     'departure_time' => $data['departure_time'],
                     'user_id' => $data['user_id'],
+                    'boats_id' => $data['boats_id'],
                     'additional_message' => $data['additional_message'],
                 ]);
 
@@ -142,7 +143,7 @@ class BookingController extends Controller
     private function getBoat($data)
     {
         return Boats::select('*')
-            ->where('id', $data['boat_id'])
+            ->where('id', $data['boats_id'])
             ->where('departure_time', $data['departure_time'])
             ->first();
     }

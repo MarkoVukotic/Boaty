@@ -25,7 +25,6 @@ class StoreBookingRequest extends FormRequest
     {
         return [
             'tour' => 'required',
-            'email' => 'required',
             'departure_time' => 'required',
             'number_of_adults' => 'required',
             'number_of_kids' => 'required',

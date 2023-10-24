@@ -22,9 +22,11 @@ return new class extends Migration
             $table->tinyText('departure_time');
             $table->string('additional_message', 600)->nullable();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('boats_id');
             $table->enum('tour', ['Blue cave', 'Perast'])->default(null);
             $table->enum('status', ['active', 'inactive', 'deleted'])->default('active');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('boats_id')->references('id')->on('boats');
             $table->timestamps();
         });
     }

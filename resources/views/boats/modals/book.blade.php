@@ -32,7 +32,7 @@
 
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                     <input type="hidden" name="tour" value="{{ $boat['tour'] }}">
-                    <input type="hidden" name="boat_id" value="{{ $boat['id'] }}">
+                    <input type="hidden" name="boats_id" value="{{ $boat['id'] }}">
 
                     <!-- First Name -->
                     <div>

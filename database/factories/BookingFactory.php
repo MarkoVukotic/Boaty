@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Boats;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,6 +19,7 @@ class BookingFactory extends Factory
     public function definition()
     {
         $user = User::factory()->create();
+        $boats = Boats::factory()->create(['departure_time' => '09:00h']);
         return [
             'number_of_adults' => 2,
             'number_of_kids' => 0,
@@ -27,7 +29,8 @@ class BookingFactory extends Factory
             'additional_message' => '',
             'tour' => 'Blue cave',
             'status' => 'active',
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'boats_id' => $boats->id
         ];
     }
 }
