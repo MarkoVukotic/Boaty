@@ -166,10 +166,7 @@ class BookingController extends Controller
 
         $available_capacity = $boat['capacity'] - $boat['booked_capacity'];
 
-        if ($this->booked_capacity >= $available_capacity) {
-            return true;
-        }
-        return false;
+        return $this->booked_capacity >= $available_capacity;
 
     }
 }
