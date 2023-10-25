@@ -23,6 +23,22 @@ class BoatsTest extends TestCase
     /**
      * @test
      */
+    public function it_shows_all_of_the_boats_successfully()
+    {
+
+        Boats::factory(10)->create([
+            'model' => 'Barracuda 686'
+        ]);
+
+        $response = $this->actingAs($this->user)->get('/boats');
+        $response->assertStatus(200);
+        $content = $response->getContent();
+        $this->assertStringContainsString('Barracuda 686', $content);
+    }
+
+    /**
+     * @test
+     */
     public function it_creates_boat_successfully()
     {
         $params = [
@@ -45,16 +61,37 @@ class BoatsTest extends TestCase
     /**
      * @test
      */
-    public function it_shows_all_of_the_boats_successfully()
+    public function it_updates_boat_data_successfully_in_the_database()
     {
+        $boat = Boats::factory()->create();
 
-        Boats::factory(10)->create([
-            'model' => 'Barracuda 686'
-        ]);
+        $params = [
+            'model' => 'Atlantic Marine',
+            'production_year' => 2023,
+            'departure_time' => '19:00h',
+            'capacity' => 12,
+            'blue_cave_private' => 350,
+            'perast_private' => 120,
+            'blue_cave_group' => 40,
+            'price_by_hour' => 100,
+        ];
 
-        $response = $this->actingAs($this->user)->get('/boats');
-        $response->assertStatus(200);
-        $content = $response->getContent();
-        $this->assertStringContainsString('Barracuda 686', $content);
+        $this->actingAs($this->user)->put("/boats/$boat->id", $params);
+
+        $this->assertDatabaseHas('boats', $params);
     }
+
+    /**
+     * @test
+     */
+    public function it_deletes_boat_data_successfully_in_the_database()
+    {
+        $boat = Boats::factory()->create();
+
+        $this->actingAs($this->user)->delete("/boats/$boat->id");
+
+        $this->assertDatabaseEmpty('boats');
+        $this->assertDatabaseMissing('boats', $boat->toArray());
+    }
+
 }

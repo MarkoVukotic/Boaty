@@ -120,7 +120,13 @@ class BookingController extends Controller
      */
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
-        //
+        try {
+            $booking->update($request->validated());
+        }catch (\Exception $e){
+            echo $e->getMessage();
+            echo $e->getLine();
+        }
+
     }
 
     /**
@@ -131,7 +137,12 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        //
+        try {
+            $booking->delete();
+        }catch (\Exception $e){
+            echo $e->getMessage();
+            echo $e->getLine();
+        }
     }
 
     private function updateBoatCapacity($data)

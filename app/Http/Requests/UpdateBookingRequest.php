@@ -13,7 +13,7 @@ class UpdateBookingRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class UpdateBookingRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'tour' => 'required',
+            'departure_time' => 'required',
+            'number_of_adults' => 'required',
+            'number_of_kids' => 'required',
+            'number_of_infants' => 'required',
+            'total_price' => 'required',
+            'additional_message' => 'required',
         ];
     }
 }

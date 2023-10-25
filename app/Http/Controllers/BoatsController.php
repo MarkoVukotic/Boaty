@@ -96,9 +96,14 @@ class BoatsController extends Controller
      * @param  \App\Models\Boats  $boats
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBoatsRequest $request, Boats $boats)
+    public function update(UpdateBoatsRequest $request, Boats $boat)
     {
-        //
+        try {
+            $boat->update($request->validated());
+        }catch (\Exception $e){
+            echo $e->getMessage();
+            echo $e->getLine();
+        }
     }
 
     /**
@@ -107,8 +112,14 @@ class BoatsController extends Controller
      * @param  \App\Models\Boats  $boats
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Boats $boats)
+    public function destroy(Boats $boat)
     {
-        //
+        try {
+            $boat->delete();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            echo $e->getLine();
+        }
     }
+
 }

@@ -27,7 +27,6 @@ class BookingTests extends TestCase
      */
     public function it_shows_all_the_bookings_successfully()
     {
-
         Booking::factory()->create([
             'number_of_adults' => 2,
             'total_price' => 80,
@@ -124,6 +123,46 @@ class BookingTests extends TestCase
         $this->assertDatabaseHas('boats', [
             'booked_capacity' => 2
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_successfully_updates_the_booking_record_in_the_database()
+    {
+        $boat = Boats::factory()->create();
+        $booking = Booking::factory()->create([
+            'boats_id' => $boat->id
+        ]);
+
+        $params = [
+            'tour' => 'Blue Cave',
+            'departure_time' => '12:00h',
+            'number_of_adults' => 2,
+            'number_of_kids' => 2,
+            'number_of_infants' => 0,
+            'total_price' => 120,
+            'additional_message' => 'They want beer on the boat',
+        ];
+
+        $this->actingAs($this->user)->put("/booking/$booking->id", $params);
+        $this->assertDatabaseHas('bookings', $params);
+    }
+
+    /**
+     * @test
+     */
+    public function it_successfully_deletes_the_booking_record_from_the_database()
+    {
+        $boat = Boats::factory()->create();
+        $booking = Booking::factory()->create([
+            'boats_id' => $boat->id
+        ]);
+
+        $this->actingAs($this->user)->delete("/booking/$booking->id");
+
+        $this->assertDatabaseEmpty('bookings');
+        $this->assertDatabaseMissing('bookings', $booking->toArray());
     }
 
 }
