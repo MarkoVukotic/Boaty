@@ -15,4 +15,9 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeSearch($query, $value){
+        $query->where('departure_time', 'like', "%{$value}%")
+            ->orWhere('tour', 'like', "%{$value}%");
+    }
 }
