@@ -11,19 +11,32 @@ class BookingTable extends Component
     public string $search = '';
     public string $tour = '';
 
+    public $sort_by = 'departure_time';
+    public $sort_direction = 'DESC';
+
     public function delete(Booking $booking)
     {
         $booking->delete();
     }
+
+    public function setSortBy($sortByField)
+    {
+        if($this->sort_by === $sortByField){
+            $this->sort_direction = ($this->sort_direction === 'ASC') ? 'DESC' : 'ASC';
+            return;
+        }
+        $this->sort_by = $sortByField;
+        $this->sort_direction = 'DESC';
+    }
+
     public function render()
     {
         $bookings = Booking::select('*')
-            ->orderBy('created_at', 'asc')
-            ->orderBy('departure_time', 'asc')
             ->with('user')
-            ->when($this->tour !== '', function($query){
+            ->when($this->tour !== '', function ($query) {
                 $query->where('tour', $this->tour);
             })
+            ->orderBy($this->sort_by, $this->sort_direction)
             ->search($this->search)
             ->paginate($this->perPage);
 

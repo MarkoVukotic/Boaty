@@ -1,6 +1,6 @@
 <div>
         <section class="mt-10">
-            <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+            <div class="mx-auto max-w-screen-xl">
                 <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                     <div class="flex items-center justify-between d p-4">
                         <div class="flex">
@@ -36,22 +36,22 @@
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-center">
+                                <th scope="col" class="px-6 py-3 text-center" wire:click="setSortBy('tour')">
                                     Tour name
                                 </th>
-                                <th scope="col" class="px-6 py-3 text-center">
+                                <th scope="col" class="px-6 py-3 text-center" wire:click="setSortBy('number_of_adults')">
                                     Number of adults
                                 </th>
-                                <th scope="col" class="px-6 py-3 text-center">
+                                <th scope="col" class="px-6 py-3 text-center" wire:click="setSortBy('number_of_kids')">
                                     Number of kids
                                 </th>
-                                <th scope="col" class="px-6 py-3 text-center">
+                                <th scope="col" class="px-6 py-3 text-center" wire:click="setSortBy('number_of_infants')">
                                     Number of infants
                                 </th>
-                                <th scope="col" class="px-6 py-3 text-center">
+                                <th scope="col" class="px-6 py-3 text-center" wire:click="setSortBy('total_price')">
                                     Total price
                                 </th>
-                                <th scope="col" class="px-6 py-3 text-center">
+                                <th scope="col" class="px-6 py-3 text-center" wire:click="setSortBy('departure_time')">
                                     Departure time
                                 </th>
                                 <th scope="col" class="px-6 py-3 text-center">
@@ -59,6 +59,9 @@
                                 </th>
                                 <th scope="col" class="px-6 py-3 text-center">
                                     Bookie
+                                </th>
+                                <th scope="col" class="px-10 py-3 text-center" wire:click="setSortBy('created_at')">
+                                    Created at
                                 </th>
                                 <th scope="col" class="px-6 py-3 text-center">
                                     Edit
@@ -97,6 +100,9 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         {{$single_booking['user']['full_name']}}
+                                    </td>
+                                    <td class="px-6 py-4 text-center">
+                                        {{$single_booking['created_at']}}
                                     </td>
 
                                     <td class="px-6 py-4 text-center">
