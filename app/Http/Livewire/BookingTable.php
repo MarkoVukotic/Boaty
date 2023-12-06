@@ -11,6 +11,10 @@ class BookingTable extends Component
     public string $search = '';
     public string $tour = '';
 
+    public function delete(Booking $booking)
+    {
+        $booking->delete();
+    }
     public function render()
     {
         $bookings = Booking::select('*')
